@@ -1,0 +1,10 @@
+node_modules/
+android/
+ios/
+*.log
+.DS_Store
+.gradle/
+*.keystore
+*.jks
+/tools/shot-*.png
+/tools/*.log
