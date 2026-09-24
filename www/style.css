@@ -1,0 +1,150 @@
+/* علّوش الرافدين — الهوية: آجر بابل المزجّج (لازورد + ذهب) + ألوان العلم العراقي */
+:root{
+  --gold:#f3b93a;--gold2:#ffdf8a;--lapis:#1b4fa3;--lapis-d:#0d2b5e;
+  --red:#c8102e;--ink:#150c07;--cream:#f7ecd2;--palm:#1c7a4c;--cs:1;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--ink);color:var(--cream);
+  font-family:"Noto Kufi Arabic","Droid Arabic Kufi","Segoe UI",Tahoma,system-ui,sans-serif;
+  overscroll-behavior:none;touch-action:none;-webkit-touch-callout:none}
+canvas#c{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid var(--gold2);outline-offset:2px}
+
+.screen{position:fixed;inset:0;display:none;z-index:10}
+.screen.show{display:flex}
+.hidden{display:none!important}
+
+/* ---------- القائمة الرئيسية ---------- */
+#menu{align-items:center;justify-content:flex-start;padding:env(safe-area-inset-top,0) 18px env(safe-area-inset-bottom,0);
+  background:linear-gradient(270deg,rgba(21,12,7,.86) 0,rgba(21,12,7,.55) 44%,rgba(21,12,7,0) 70%)}
+#menu .side{width:min(48%,430px);display:flex;flex-direction:column;align-items:center;gap:clamp(4px,1.6vh,12px);padding:8px 6px}
+.title{margin:0;font-size:clamp(56px,19vh,132px);font-weight:900;line-height:1.05;color:#ffd257;
+  text-shadow:0 2px 0 #f3a21b,0 5px 0 #b3611a,0 8px 0 #5a2a0c,0 16px 24px rgba(0,0,0,.6)}
+.sub{font-size:clamp(15px,4.6vh,30px);font-weight:800;padding:1px 26px 3px;border:2px solid var(--gold);border-radius:6px;
+  background:linear-gradient(#27a06b,#146b44);transform:skewX(-7deg);text-shadow:0 2px 0 rgba(0,0,0,.45);margin-top:-6px}
+.made{display:flex;align-items:center;gap:10px;padding:4px 8px 4px 16px;border:2px solid var(--gold);border-radius:999px;
+  background:rgba(10,5,2,.78);box-shadow:0 0 0 2px rgba(0,0,0,.4),0 0 18px rgba(243,185,58,.35)}
+.flag{width:46px;height:30px;display:flex;flex-direction:column;border-radius:3px;overflow:hidden;box-shadow:0 0 0 1px rgba(0,0,0,.6);flex:none}
+.flag i{flex:1;display:block;font-style:normal}
+.flag .r{background:#ce1126}.flag .k{background:#000}
+.flag .w{background:#fff;color:#007a3d;font-size:6.5px;font-weight:900;line-height:10px;text-align:center;white-space:nowrap}
+.madetxt{display:flex;flex-direction:column;line-height:1.15}
+.madetxt b{font-size:clamp(13px,3.6vh,20px);color:var(--gold2);font-weight:900}
+.madetxt small{font-size:clamp(9px,2.2vh,12px);color:var(--cream);opacity:.85;direction:ltr;text-align:right;letter-spacing:.06em}
+.mbtns{display:flex;flex-direction:column;align-items:center;gap:clamp(6px,1.8vh,12px);width:100%;margin-top:clamp(2px,1.4vh,10px)}
+.row2{display:flex;gap:8px;justify-content:center;width:100%}
+.rankcard{display:flex;gap:14px;align-items:center;font-size:clamp(11px,2.8vh,15px);color:var(--gold2);font-weight:800;
+  background:rgba(10,5,2,.6);border:1px solid rgba(243,185,58,.5);border-radius:8px;padding:3px 12px}
+.ver{position:absolute;bottom:calc(6px + env(safe-area-inset-bottom,0));right:14px;font-size:11px;opacity:.75;font-weight:700}
+
+/* ---------- الأزرار ---------- */
+.btn{position:relative;font-weight:800;font-size:clamp(15px,3.9vh,22px);color:var(--cream);padding:.5em 1.2em;min-width:min(250px,70%);
+  border:3px solid var(--gold);border-radius:10px;touch-action:manipulation;
+  background:linear-gradient(#2b6fd6,#173f86 55%,#0f2c62);
+  box-shadow:inset 0 0 0 2px rgba(0,0,0,.35),inset 0 2px 0 rgba(255,255,255,.25),0 4px 0 #061a3d,0 8px 14px rgba(0,0,0,.4);
+  text-shadow:0 2px 0 rgba(0,0,0,.5);transition:transform .08s}
+.btn:active{transform:translateY(3px);box-shadow:inset 0 0 0 2px rgba(0,0,0,.35),0 1px 0 #061a3d}
+.btn.primary{background:linear-gradient(#f0324a,#c8102e 55%,#8c0a1f);box-shadow:inset 0 0 0 2px rgba(0,0,0,.35),inset 0 2px 0 rgba(255,255,255,.3),0 4px 0 #4d0512,0 8px 14px rgba(0,0,0,.4)}
+.btn.small{min-width:0;font-size:clamp(12px,3vh,16px);padding:.35em .9em;border-width:2px}
+.btn.danger{background:linear-gradient(#7a1f1f,#4a1010);border-color:#e0806a}
+.btn.wide{width:100%;min-width:0}
+
+/* ---------- الشاشات الداخلية ---------- */
+.panel{flex-direction:column;background:linear-gradient(#1d1009,#120a05);padding:env(safe-area-inset-top,0) env(safe-area-inset-right,0) env(safe-area-inset-bottom,0) env(safe-area-inset-left,0)}
+.head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 16px;border-bottom:3px solid var(--gold);
+  background:linear-gradient(#173f86,#0f2c62)}
+.head h2{margin:0;font-size:clamp(17px,4.4vh,26px);font-weight:900;color:var(--gold2)}
+.chip{font-weight:800;color:var(--gold2);font-size:14px;min-width:70px;text-align:left;direction:ltr}
+.scroll{flex:1;overflow-y:auto;touch-action:pan-y;-webkit-overflow-scrolling:touch;padding:12px 16px 26px}
+.scroll.narrow{max-width:640px;width:100%;margin:0 auto}
+.world{margin-bottom:14px}
+.world h3{margin:6px 2px 8px;font-size:15px;color:var(--gold2);display:flex;align-items:center;gap:10px}
+.world h3::after{content:"";flex:1;height:2px;background:repeating-linear-gradient(90deg,var(--gold) 0 6px,transparent 6px 12px);opacity:.6}
+.grid{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:8px}
+.cell{aspect-ratio:1/.95;border-radius:8px;border:2px solid var(--gold);background:linear-gradient(#2b6fd6,#12356e);
+  font-weight:900;font-size:clamp(14px,3.6vh,20px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+  touch-action:manipulation;box-shadow:0 3px 0 #061a3d;text-shadow:0 2px 0 rgba(0,0,0,.5)}
+.cell .st{font-size:clamp(8px,2vh,11px);color:var(--gold2);letter-spacing:1px;direction:ltr}
+.cell.boss{background:linear-gradient(#f0324a,#8c0a1f)}
+.cell.locked{filter:grayscale(1) brightness(.45);box-shadow:none}
+.cell.next{animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 4px rgba(255,223,138,.7)}}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 4px;border-bottom:1px solid rgba(243,185,58,.25);font-weight:800;font-size:16px}
+.tg{width:64px;height:34px;border-radius:999px;border:2px solid var(--gold);background:#3b2418;position:relative;padding:0;touch-action:manipulation}
+.tg::after{content:"";position:absolute;top:3px;right:3px;width:24px;height:24px;border-radius:50%;background:#8c7a66;transition:all .15s}
+.tg[aria-pressed=true]{background:var(--palm)}
+.tg[aria-pressed=true]::after{right:33px;background:var(--gold2)}
+.seg{display:flex;border:2px solid var(--gold);border-radius:8px;overflow:hidden}
+.seg button{border:0;background:#3b2418;padding:6px 12px;font-weight:800;font-size:14px;touch-action:manipulation}
+.seg button.on{background:var(--gold);color:var(--ink)}
+.prose{line-height:1.85;font-size:15px}
+.prose h3{color:var(--gold2);margin:14px 0 4px}
+.prose ul{margin:0;padding:0 20px 0 0}
+.prose li{margin:4px 0}
+.fine{opacity:.8;font-size:13px}
+.frame{flex:1;border:0;background:#fff;width:100%}
+
+/* ---------- شاشة القصة ---------- */
+.storyBar{padding:12px 16px calc(14px + env(safe-area-inset-bottom,0));display:flex;justify-content:center;border-top:2px solid rgba(243,185,58,.4);background:rgba(0,0,0,.2)}
+#storyText{white-space:pre-line}
+
+/* ---------- المتجر ---------- */
+.shopGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;padding-bottom:10px}
+.skinCard{background:linear-gradient(#26160c,#170d07);border:2px solid var(--gold);border-radius:12px;padding:10px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.skinCard canvas{width:100%;max-width:120px;aspect-ratio:1/1;border-radius:10px}
+.skinCard .sName{font-weight:800;font-size:14px;color:var(--gold2)}
+.skinCard .sPrice{font-size:13px;font-weight:800;color:#ffe89a}
+.skinCard button{width:100%}
+.skinCard button.owned{opacity:.6}
+#mWallet{color:#ffe89a}
+
+
+/* ---------- نوافذ الإيقاف والنتيجة ---------- */
+.dim{align-items:center;justify-content:center;background:rgba(8,4,2,.72)}
+.card{background:linear-gradient(#26160c,#150c07);border:3px solid var(--gold);border-radius:16px;padding:14px 26px 18px;text-align:center;
+  box-shadow:0 0 0 3px #000,0 16px 40px rgba(0,0,0,.6);max-width:92vw;max-height:96vh;overflow:auto;touch-action:pan-y}
+.card.wide{width:min(600px,94vw)}
+.card h2{margin:0 0 6px;font-size:clamp(20px,5.4vh,32px);color:var(--gold2);font-weight:900}
+.col{display:flex;flex-direction:column;gap:10px;align-items:center;margin-top:10px}
+.stars{display:flex;gap:8px;justify-content:center;direction:ltr;margin:4px 0}
+.stars i{width:clamp(34px,10vh,54px);aspect-ratio:1;background:#3b2a1c;
+  clip-path:polygon(50% 0,62% 34%,98% 36%,69% 58%,80% 93%,50% 72%,20% 93%,31% 58%,2% 36%,38% 34%)}
+.stars i.on{background:linear-gradient(#ffe89a,#f3b93a);animation:pop .45s cubic-bezier(.2,1.6,.4,1) both}
+.stars i.on:nth-child(2){animation-delay:.18s}.stars i.on:nth-child(3){animation-delay:.36s}
+@keyframes pop{from{transform:scale(.2) rotate(-30deg);opacity:0}}
+.rank{font-size:clamp(28px,8vh,48px);font-weight:900;color:var(--red);text-shadow:0 2px 0 #000,0 0 14px rgba(200,16,46,.55);line-height:1}
+.rank.S{color:var(--gold2);text-shadow:0 2px 0 #7a4a08,0 0 16px rgba(255,223,138,.8)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0;font-size:13px}
+.stats dt{opacity:.75;font-size:12px}.stats dd{margin:0;font-weight:900;font-size:clamp(14px,3.6vh,19px);color:var(--gold2)}
+.best{margin:0 0 6px;font-size:13px;min-height:1.2em;color:var(--gold2)}
+.row3{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.row3 .btn{min-width:0}
+
+/* ---------- أزرار التحكم باللمس ---------- */
+#touch{position:fixed;inset:0;pointer-events:none;direction:ltr;z-index:5;touch-action:none}
+#pad{position:absolute;left:calc(20px + env(safe-area-inset-left,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));
+  width:calc(220px*var(--cs));height:calc(100px*var(--cs));border-radius:999px;background:rgba(15,8,4,.34);
+  border:3px solid rgba(243,185,58,.55);pointer-events:auto;touch-action:none;display:flex;align-items:center;justify-content:space-between;padding:0 calc(20px*var(--cs))}
+.ar{width:0;height:0;border-style:solid;opacity:.9;display:block}
+.ar.l{border-width:calc(17px*var(--cs)) calc(25px*var(--cs)) calc(17px*var(--cs)) 0;border-color:transparent var(--gold2) transparent transparent}
+.ar.r{border-width:calc(17px*var(--cs)) 0 calc(17px*var(--cs)) calc(25px*var(--cs));border-color:transparent transparent transparent var(--gold2)}
+#knob{position:absolute;left:50%;top:50%;width:calc(60px*var(--cs));height:calc(60px*var(--cs));margin:calc(-30px*var(--cs)) 0 0 calc(-30px*var(--cs));
+  border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe9a8,#f3b93a 60%,#a86a12);box-shadow:0 3px 8px rgba(0,0,0,.5);pointer-events:none;transition:transform .05s}
+#btns{position:absolute;right:calc(20px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));display:flex;align-items:flex-end;gap:calc(16px*var(--cs))}
+.gb{pointer-events:auto;touch-action:none;border-radius:50%;border:3px solid var(--gold);font-weight:900;font-size:calc(14px*var(--cs));
+  background:radial-gradient(circle at 35% 30%,#4a8fee,#173f86 70%);opacity:.74;width:calc(76px*var(--cs));height:calc(76px*var(--cs));padding:0;
+  box-shadow:0 4px 10px rgba(0,0,0,.5);text-shadow:0 2px 0 rgba(0,0,0,.6)}
+.gb.big{width:calc(100px*var(--cs));height:calc(100px*var(--cs));font-size:calc(17px*var(--cs));background:radial-gradient(circle at 35% 30%,#ff5468,#c8102e 70%)}
+.gb.on{opacity:1;transform:scale(.93)}
+#bPause{position:absolute;top:calc(8px + env(safe-area-inset-top,0px));right:calc(10px + env(safe-area-inset-right,0px));width:44px;height:44px;border-radius:12px;
+  border:2px solid var(--gold);background:rgba(15,8,4,.5);pointer-events:auto;touch-action:manipulation;display:flex;gap:6px;align-items:center;justify-content:center;padding:0}
+#bPause i{width:6px;height:18px;background:var(--gold2);border-radius:2px;display:block}
+
+#rotate{display:none;position:fixed;inset:0;z-index:99;background:var(--ink);align-items:center;justify-content:center;text-align:center;font-weight:900;font-size:20px;color:var(--gold2);padding:30px}
+@media (orientation:portrait) and (max-width:700px){
+  #rotate{display:flex}
+  .grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+}
+@media (max-height:340px){.head{padding:4px 12px}.row{padding:6px 4px}}
+@media (prefers-reduced-motion:reduce){.cell.next,.stars i.on{animation:none}}

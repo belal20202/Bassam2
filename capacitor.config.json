@@ -1,0 +1,13 @@
+{
+  "appId": "iq.bassam.rafidain",
+  "appName": "بسام",
+  "webDir": "www",
+  "backgroundColor": "#150c07",
+  "android": {
+    "backgroundColor": "#150c07",
+    "allowMixedContent": false
+  },
+  "server": {
+    "androidScheme": "https"
+  }
+}

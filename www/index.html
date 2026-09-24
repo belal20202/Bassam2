@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#150c07">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="description" content="بسام — لعبة ركض وقفز سريعة بروح عراقية. 100 مرحلة. صُنع في العراق. / Bassam — a fast Iraqi platformer, 100 levels. Made in Iraq.">
+<title>بسام</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<!-- أزرار التحكم باللمس -->
+<div id="touch" class="hidden">
+  <div id="pad" aria-label="Move"><i class="ar l"></i><i class="ar r"></i><div id="knob"></div></div>
+  <div id="btns">
+    <button id="bRoll" class="gb" data-i18n="btnRoll">دحرجة</button>
+    <button id="bJump" class="gb big" data-i18n="btnJump">قفز</button>
+  </div>
+  <button id="bPause" aria-label="Pause"><i></i><i></i></button>
+</div>
+
+<!-- اختيار اللغة (أول تشغيل) -->
+<section id="lang" class="screen dim show">
+  <div class="card">
+    <h2><span data-i18n="chooseLangTitle">اختر اللغة</span></h2>
+    <p class="fine" data-i18n="chooseLangSub">Choose your language</p>
+    <div class="col">
+      <button class="btn primary" id="langAr">العربية</button>
+      <button class="btn primary" id="langEn">English</button>
+    </div>
+  </div>
+</section>
+
+<!-- القصة + طريقة اللعب -->
+<section id="story" class="screen panel">
+  <header class="head">
+    <button class="btn small" id="storySkip" data-i18n="skip">تخطّي</button>
+    <h2 data-i18n="aboutTitle">القصة</h2>
+    <span></span>
+  </header>
+  <div class="scroll narrow prose">
+    <p id="storyText"></p>
+    <div id="storyGuide"></div>
+  </div>
+  <div class="storyBar">
+    <button id="storyStart" class="btn primary" data-i18n="startGame">ابدأ اللعبة</button>
+  </div>
+</section>
+
+<!-- القائمة الرئيسية -->
+<section id="menu" class="screen">
+  <div class="side">
+    <h1 class="title" data-i18n="gameTitleMain">بسام</h1>
+    <div class="sub" data-i18n="gameTitleSub">الرافدين</div>
+    <div class="made" role="img" aria-label="Made in Iraq">
+      <span class="flag"><i class="r"></i><i class="w">الله أكبر</i><i class="k"></i></span>
+      <span class="madetxt"><b data-i18n="madeIn">صُنع في العراق</b><small data-i18n="madeInEn">Made in Iraq</small></span>
+    </div>
+    <nav class="mbtns">
+      <button id="mPlay" class="btn primary" data-i18n="btnPlay">ابدأ اللعب</button>
+      <button id="mLevels" class="btn" data-i18n="btnLevels">المراحل</button>
+      <button id="mShop" class="btn" data-i18n="btnShop">المتجر</button>
+      <button id="mSettings" class="btn" data-i18n="btnSettings">الإعدادات</button>
+      <div class="row2">
+        <button id="mPrivacy" class="btn small" data-i18n="btnPrivacy">سياسة الخصوصية</button>
+        <button id="mAbout" class="btn small" data-i18n="btnAbout">القصة</button>
+      </div>
+      <button id="mExit" class="btn small danger wide" data-i18n="btnExit">خروج</button>
+    </nav>
+    <div class="rankcard"><span id="mTitle">مبتدئ</span><span id="mStars">0 / 300</span><span id="mWallet">0 ⛃</span></div>
+  </div>
+  <div class="ver"><span data-i18n="version">الإصدار</span> 1.0.2</div>
+</section>
+
+<!-- اختيار المرحلة -->
+<section id="levels" class="screen panel">
+  <header class="head">
+    <button class="btn small back" data-back data-i18n="back">رجوع</button>
+    <h2 data-i18n="chooseLevel">اختر المرحلة</h2>
+    <span class="chip" id="lvStars">0 / 300</span>
+  </header>
+  <div class="scroll" id="lvList"></div>
+</section>
+
+<!-- المتجر -->
+<section id="shop" class="screen panel">
+  <header class="head">
+    <button class="btn small back" data-back data-i18n="back">رجوع</button>
+    <h2 data-i18n="shopTitle">المتجر</h2>
+    <span class="chip" id="shWallet">0 ⛃</span>
+  </header>
+  <div class="scroll" id="shopList"></div>
+</section>
+
+<!-- الإعدادات -->
+<section id="settings" class="screen panel">
+  <header class="head">
+    <button class="btn small back" data-back data-i18n="back">رجوع</button>
+    <h2 data-i18n="settingsTitle">الإعدادات</h2>
+    <span></span>
+  </header>
+  <div class="scroll narrow">
+    <div class="row"><span data-i18n="language">اللغة</span>
+      <div class="seg" id="segLang"><button data-lang="ar">العربية</button><button data-lang="en">English</button></div>
+    </div>
+    <div class="row"><span data-i18n="sfx">المؤثرات الصوتية</span><button class="tg" data-set="sfx" aria-pressed="true"></button></div>
+    <div class="row"><span data-i18n="music">الموسيقى</span><button class="tg" data-set="music" aria-pressed="true"></button></div>
+    <div class="row"><span data-i18n="haptic">الاهتزاز</span><button class="tg" data-set="haptic" aria-pressed="true"></button></div>
+    <div class="row"><span data-i18n="ctrlSize">حجم أزرار التحكم</span>
+      <div class="seg" id="segCtrl"><button data-cs="0.85" data-i18n="small">صغير</button><button data-cs="1" data-i18n="medium">وسط</button><button data-cs="1.2" data-i18n="large">كبير</button></div>
+    </div>
+    <div class="row"><span data-i18n="resetAll">مسح كل التقدم</span><button class="btn small danger" id="sReset" data-i18n="reset">مسح</button></div>
+  </div>
+</section>
+
+<!-- سياسة الخصوصية -->
+<section id="privacy" class="screen panel">
+  <header class="head">
+    <button class="btn small back" data-back data-i18n="back">رجوع</button>
+    <h2 data-i18n="privacyTitle">سياسة الخصوصية</h2>
+    <span></span>
+  </header>
+  <iframe id="pFrame" class="frame" title="Privacy Policy"></iframe>
+</section>
+
+<!-- إيقاف مؤقت -->
+<section id="pause" class="screen dim">
+  <div class="card">
+    <h2 data-i18n="pauseTitle">إيقاف مؤقت</h2>
+    <div class="col">
+      <button id="pResume" class="btn primary" data-i18n="resume">متابعة</button>
+      <button id="pRetry" class="btn" data-i18n="retryLevel">إعادة المرحلة</button>
+      <button id="pMenu" class="btn" data-i18n="mainMenu">القائمة الرئيسية</button>
+    </div>
+  </div>
+</section>
+
+<!-- نتيجة المرحلة -->
+<section id="result" class="screen dim">
+  <div class="card wide">
+    <h2 id="rTitle" data-i18n="resultDone">تمّت المرحلة</h2>
+    <div class="stars" id="rStars"><i></i><i></i><i></i></div>
+    <div class="rank" id="rRank">S</div>
+    <dl class="stats">
+      <div><dt data-i18n="time">الزمن</dt><dd id="rTime">0</dd></div>
+      <div><dt data-i18n="coins">الدنانير</dt><dd id="rCoins">0</dd></div>
+      <div><dt data-i18n="enemies">الأعداء</dt><dd id="rKills">0</dd></div>
+      <div><dt data-i18n="score">النقاط</dt><dd id="rScore">0</dd></div>
+    </dl>
+    <p class="best" id="rBest"></p>
+    <div class="row3">
+      <button id="rNext" class="btn primary" data-i18n="nextLevel">المرحلة التالية</button>
+      <button id="rRetry" class="btn" data-i18n="retry">إعادة</button>
+      <button id="rMenu" class="btn" data-i18n="levelsBtn">المراحل</button>
+      <button id="rShare" class="btn small" data-i18n="share">مشاركة</button>
+    </div>
+  </div>
+</section>
+
+<!-- انتهت المحاولات -->
+<section id="over" class="screen dim">
+  <div class="card">
+    <h2 data-i18n="overTitle">انتهت المحاولات</h2>
+    <p class="fine" data-i18n="overBody">لا بأس، حاول من جديد وستعرف الطريق.</p>
+    <div class="col">
+      <button id="oRetry" class="btn primary" data-i18n="tryAgain">حاول مجدداً</button>
+      <button id="oMenu" class="btn" data-i18n="levelsBtn">المراحل</button>
+    </div>
+  </div>
+</section>
+
+<!-- تأكيد الخروج -->
+<section id="exitConfirm" class="screen dim">
+  <div class="card">
+    <h2 data-i18n="exitConfirmTitle">الخروج من اللعبة</h2>
+    <p class="fine" data-i18n="exitConfirmBody">هل تريد الخروج الآن؟</p>
+    <div class="col">
+      <button id="exitYes" class="btn primary danger" data-i18n="exitYes">نعم، خروج</button>
+      <button id="exitCancel" class="btn" data-i18n="exitCancel">إلغاء</button>
+    </div>
+  </div>
+</section>
+
+<div id="rotate"><div data-i18n="rotatePrompt">أدِر الجهاز إلى الوضع الأفقي</div></div>
+
+<script src="i18n.js"></script>
+<script src="shop.js"></script>
+<script src="engine.js"></script>
+<script src="audio.js"></script>
+<script src="render.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "bassam",
+  "version": "1.0.2",
+  "description": "بسام — لعبة ركض وقفز عراقية، 100 مرحلة، بالعربية والإنجليزية، مع متجر أزياء",
+  "private": true,
+  "scripts": {
+    "sync": "cap sync android",
+    "open:android": "cap open android",
+    "build:apk": "cd android && ./gradlew assembleDebug",
+    "build:apk:release": "cd android && ./gradlew assembleRelease"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
+    "@capacitor/app": "^7.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.0.0",
+    "@capacitor/assets": "^3.0.0"
+  }
+}
